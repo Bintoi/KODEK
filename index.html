@@ -1,0 +1,1400 @@
+<title>KODEK</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Design tokens */
+:root {
+  /* Layout: Edge-to-edge bands with constrained content, asymmetric product grid */
+
+  /* Color: Charcoal base with warm terracotta accent, cream highlights */
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --ink-primary: #1C1917;
+  --ink-secondary: #57534E;
+  --ink-muted: #78716C;
+  --accent: #D97742;
+  --accent-hover: #C2652F;
+  --accent-soft: #FDF4ED;
+  --border: #E7E5E4;
+  --badge-bg: #F5F5F4;
+
+  /* Type */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+
+  /* Spacing */
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-right: max(16px, env(safe-area-inset-right, 0px));
+  --max-width: 1280px;
+  --section-gap: clamp(48px, 8vw, 96px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1917;
+    --surface: #292524;
+    --ink-primary: #FAFAF9;
+    --ink-secondary: #D6D3D1;
+    --ink-muted: #A8A29E;
+    --accent: #EA8D5B;
+    --accent-hover: #F5A877;
+    --accent-soft: #3C2A20;
+    --border: #44403C;
+    --badge-bg: #3C3836;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1C1917;
+  --surface: #292524;
+  --ink-primary: #FAFAF9;
+  --ink-secondary: #D6D3D1;
+  --ink-muted: #A8A29E;
+  --accent: #EA8D5B;
+  --accent-hover: #F5A877;
+  --accent-soft: #3C2A20;
+  --border: #44403C;
+  --badge-bg: #3C3836;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.2;
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 { font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -0.02em; }
+h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.01em; }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h4 { font-size: 1.25rem; }
+
+p { margin: 0; }
+
+/* Layout utilities */
+.wrapper {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter-right);
+}
+
+.section {
+  padding-block: var(--section-gap);
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  padding-block: 1rem;
+  backdrop-filter: blur(8px);
+  background: rgba(250, 250, 249, 0.9);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) header {
+    background: rgba(28, 25, 23, 0.9);
+  }
+}
+
+:root[data-theme="dark"] header {
+  background: rgba(28, 25, 23, 0.9);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--ink-primary);
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+nav a {
+  color: var(--ink-secondary);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+.nav-icons {
+  display: flex;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.icon-btn:hover {
+  color: var(--accent);
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--accent-soft) 0%, var(--bg) 100%);
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-text h1 {
+  margin-bottom: 1.5rem;
+}
+
+.hero-text p {
+  font-size: 1.125rem;
+  color: var(--ink-secondary);
+  margin-bottom: 2rem;
+  max-width: 32rem;
+}
+
+.hero-image {
+  aspect-ratio: 3/4;
+  background: var(--surface);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--badge-bg) 0%, var(--surface) 100%);
+  color: var(--ink-muted);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ink-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Product Grid */
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  margin-bottom: 0.75rem;
+}
+
+.section-header p {
+  color: var(--ink-secondary);
+  font-size: 1.0625rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-image {
+  aspect-ratio: 3/4;
+  background: var(--badge-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.product-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: white;
+  color: var(--ink-primary);
+  padding: 0.375rem 0.75rem;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.product-info {
+  padding: 1.25rem;
+}
+
+.product-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+}
+
+.product-category {
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.price-original {
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+/* Categories */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-card {
+  position: relative;
+  aspect-ratio: 4/5;
+  background: var(--surface);
+  border-radius: 2px;
+  overflow: hidden;
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.category-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Features */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+}
+
+.feature {
+  text-align: center;
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--accent-soft);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  color: var(--accent);
+  font-size: 1.5rem;
+}
+
+.feature h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.feature p {
+  color: var(--ink-secondary);
+  font-size: 0.9375rem;
+}
+
+/* Newsletter */
+.newsletter {
+  background: var(--accent);
+  color: white;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.newsletter h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.newsletter p {
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 480px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.newsletter-form input {
+  flex: 1;
+  min-width: 240px;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+}
+
+.newsletter-form input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter-form input:focus {
+  outline: none;
+  border-color: white;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.newsletter-form button {
+  background: white;
+  color: var(--accent);
+}
+
+.newsletter-form button:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Footer */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding-block: 3rem 2rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-brand h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.footer-brand p {
+  color: var(--ink-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.footer-section h4 {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-links a {
+  color: var(--ink-secondary);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.footer-bottom {
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: var(--ink-muted);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--accent);
+}
+
+/* Cart Sidebar */
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  background: var(--surface);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: calc(env(safe-area-inset-top, 0px) + 1.5rem) calc(16px + env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 1.5rem) 1.5rem;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-header h2 {
+  font-size: 1.5rem;
+}
+
+.close-cart {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--ink-muted);
+}
+
+.cart-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 100px;
+  background: var(--badge-bg);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.cart-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cart-item-title {
+  font-weight: 600;
+}
+
+.cart-item-details {
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+}
+
+.cart-item-price {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.cart-item-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.qty-btn {
+  background: var(--badge-bg);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-primary);
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.qty-btn:hover {
+  background: var(--border);
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+.remove-btn:hover {
+  color: var(--accent);
+}
+
+.cart-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.cart-total-price {
+  color: var(--accent);
+}
+
+.cart-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav a:not(.logo) {
+    display: none;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-image {
+    aspect-ratio: 4/5;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .cart-sidebar {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/11.2.4/framer-motion.js"></script>
+
+<script>
+const { useState, useEffect } = React;
+const { motion, AnimatePresence } = Motion;
+
+// Sample product data
+const products = [
+  {
+    id: 1,
+    title: "Classic Linen Shirt",
+    category: "Men's Shirts",
+    price: 89,
+    originalPrice: null,
+    badge: null
+  },
+  {
+    id: 2,
+    title: "Wool Blend Coat",
+    category: "Outerwear",
+    price: 249,
+    originalPrice: 299,
+    badge: "Sale"
+  },
+  {
+    id: 3,
+    title: "Tailored Trousers",
+    category: "Men's Pants",
+    price: 119,
+    originalPrice: null,
+    badge: null
+  },
+  {
+    id: 4,
+    title: "Silk Blouse",
+    category: "Women's Tops",
+    price: 129,
+    originalPrice: null,
+    badge: "New"
+  },
+  {
+    id: 5,
+    title: "Cashmere Sweater",
+    category: "Knitwear",
+    price: 189,
+    originalPrice: null,
+    badge: null
+  },
+  {
+    id: 6,
+    title: "Denim Jacket",
+    category: "Outerwear",
+    price: 159,
+    originalPrice: 199,
+    badge: "Sale"
+  },
+  {
+    id: 7,
+    title: "Leather Belt",
+    category: "Accessories",
+    price: 69,
+    originalPrice: null,
+    badge: null
+  },
+  {
+    id: 8,
+    title: "Cotton Dress",
+    category: "Women's Dresses",
+    price: 149,
+    originalPrice: null,
+    badge: "New"
+  }
+];
+
+const categories = [
+  { title: "Men's Collection", label: "Men's" },
+  { title: "Women's Collection", label: "Women's" },
+  { title: "Accessories", label: "Accessories" }
+];
+
+const features = [
+  {
+    icon: "🚚",
+    title: "Free Shipping",
+    description: "On all orders over $100. Fast and reliable delivery to your door."
+  },
+  {
+    icon: "♻️",
+    title: "Sustainable",
+    description: "Ethically sourced materials and eco-friendly production practices."
+  },
+  {
+    icon: "↩️",
+    title: "Easy Returns",
+    description: "30-day return policy. Not satisfied? Send it back hassle-free."
+  },
+  {
+    icon: "⭐",
+    title: "Premium Quality",
+    description: "Handpicked fabrics and meticulous craftsmanship in every piece."
+  }
+];
+
+function App() {
+  const [cart, setCart] = useState([]);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('kodek-cart');
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+    } catch (e) {
+      console.log('Could not load cart from storage');
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('kodek-cart', JSON.stringify(cart));
+    } catch (e) {
+      console.log('Could not save cart to storage');
+    }
+  }, [cart]);
+
+  const addToCart = (productId) => {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    setCart(prevCart => {
+      const existingItem = prevCart.find(item => item.id === productId);
+      if (existingItem) {
+        return prevCart.map(item =>
+          item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
+
+    setCartOpen(true);
+  };
+
+  const updateQuantity = (productId, delta) => {
+    setCart(prevCart => {
+      return prevCart.map(item => {
+        if (item.id === productId) {
+          const newQuantity = item.quantity + delta;
+          return newQuantity <= 0 ? null : { ...item, quantity: newQuantity };
+        }
+        return item;
+      }).filter(Boolean);
+    });
+  };
+
+  const removeFromCart = (productId) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== productId));
+  };
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      alert('Your cart is empty');
+      return;
+    }
+    alert(`Checkout functionality would be integrated with a payment processor like Stripe, PayPal, or Square. Total: $${totalPrice.toFixed(2)}`);
+  };
+
+  const handleNewsletter = (e) => {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    alert(`Thank you for subscribing! We'll send updates to ${email}`);
+    e.target.reset();
+  };
+
+  const scrollToSection = (e, href) => {
+    if (href === '#' || href === '') return;
+
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      setCartOpen(false);
+    }
+  };
+
+  return React.createElement(React.Fragment, null,
+    // Header
+    React.createElement(motion.header, {
+      initial: { y: -100 },
+      animate: { y: 0 },
+      transition: { duration: 0.6, ease: "easeOut" }
+    },
+      React.createElement('div', { className: 'wrapper header-content' },
+        React.createElement('a', { href: '#', className: 'logo' }, 'KODEK'),
+        React.createElement('nav', null,
+          React.createElement('a', { href: '#products', onClick: (e) => scrollToSection(e, '#products') }, 'Shop'),
+          React.createElement('a', { href: '#collections', onClick: (e) => scrollToSection(e, '#collections') }, 'Collections'),
+          React.createElement('a', { href: '#about', onClick: (e) => scrollToSection(e, '#about') }, 'About'),
+          React.createElement('a', { href: '#contact', onClick: (e) => scrollToSection(e, '#contact') }, 'Contact'),
+          React.createElement('div', { className: 'nav-icons' },
+            React.createElement('button', { className: 'icon-btn', 'aria-label': 'Search' },
+              React.createElement('span', null, '🔍')
+            ),
+            React.createElement('button', {
+              className: 'icon-btn',
+              id: 'cart-toggle',
+              'aria-label': 'Shopping cart',
+              onClick: () => setCartOpen(true)
+            },
+              React.createElement('span', null, '🛒'),
+              totalItems > 0 && React.createElement(motion.span, {
+                className: 'cart-count',
+                initial: { scale: 0 },
+                animate: { scale: 1 },
+                key: totalItems
+              }, totalItems)
+            )
+          )
+        )
+      )
+    ),
+
+    // Main
+    React.createElement('main', null,
+      // Hero Section
+      React.createElement('section', { className: 'hero' },
+        React.createElement('div', { className: 'wrapper hero-content' },
+          React.createElement('div', { className: 'hero-text' },
+            React.createElement(motion.h1, {
+              initial: { opacity: 0, y: 30 },
+              animate: { opacity: 1, y: 0 },
+              transition: { duration: 0.8, delay: 0.2 }
+            }, 'Elevate Your Style'),
+            React.createElement(motion.p, {
+              initial: { opacity: 0, y: 30 },
+              animate: { opacity: 1, y: 0 },
+              transition: { duration: 0.8, delay: 0.4 }
+            }, 'Discover premium clothing that combines timeless design with modern comfort. Each piece is crafted with attention to detail and sustainable materials.'),
+            React.createElement(motion.div, {
+              style: { display: 'flex', gap: '1rem', flexWrap: 'wrap' },
+              initial: { opacity: 0, y: 30 },
+              animate: { opacity: 1, y: 0 },
+              transition: { duration: 0.8, delay: 0.6 }
+            },
+              React.createElement(motion.a, {
+                href: '#products',
+                className: 'btn btn-primary',
+                onClick: (e) => scrollToSection(e, '#products'),
+                whileHover: { scale: 1.05, y: -2 },
+                whileTap: { scale: 0.95 }
+              }, 'Shop Collection'),
+              React.createElement(motion.a, {
+                href: '#about',
+                className: 'btn btn-secondary',
+                onClick: (e) => scrollToSection(e, '#about'),
+                whileHover: { scale: 1.05 },
+                whileTap: { scale: 0.95 }
+              }, 'Learn More')
+            )
+          ),
+          React.createElement(motion.div, {
+            className: 'hero-image',
+            initial: { opacity: 0, scale: 0.95 },
+            animate: { opacity: 1, scale: 1 },
+            transition: { duration: 0.8, delay: 0.3 }
+          },
+            React.createElement('div', { className: 'placeholder-img' }, 'Premium Collection')
+          )
+        )
+      ),
+
+      // Categories
+      React.createElement('section', { className: 'section', id: 'collections' },
+        React.createElement('div', { className: 'wrapper' },
+          React.createElement(motion.div, {
+            className: 'section-header',
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: "-100px" },
+            transition: { duration: 0.6 }
+          },
+            React.createElement('h2', null, 'Shop by Category'),
+            React.createElement('p', null, 'Explore our carefully curated collections')
+          ),
+          React.createElement('div', { className: 'categories' },
+            categories.map((category, index) =>
+              React.createElement(motion.a, {
+                key: index,
+                href: '#',
+                className: 'category-card',
+                initial: { opacity: 0, y: 30 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: "-100px" },
+                transition: { duration: 0.6, delay: index * 0.1 },
+                whileHover: { scale: 1.02, y: -4 },
+                whileTap: { scale: 0.98 }
+              },
+                React.createElement('div', { className: 'category-overlay' }),
+                React.createElement('div', {
+                  className: 'placeholder-img',
+                  style: { position: 'absolute', inset: 0 }
+                }, category.label),
+                React.createElement('h3', { className: 'category-title' }, category.title)
+              )
+            )
+          )
+        )
+      ),
+
+      // Featured Products
+      React.createElement('section', { className: 'section', id: 'products' },
+        React.createElement('div', { className: 'wrapper' },
+          React.createElement(motion.div, {
+            className: 'section-header',
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: "-100px" },
+            transition: { duration: 0.6 }
+          },
+            React.createElement('h2', null, 'Featured Products'),
+            React.createElement('p', null, 'Our most popular items this season')
+          ),
+          React.createElement('div', { className: 'product-grid' },
+            products.map((product, index) =>
+              React.createElement(motion.div, {
+                key: product.id,
+                className: 'product-card',
+                initial: { opacity: 0, y: 30 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: "-100px" },
+                transition: { duration: 0.5, delay: index * 0.05 },
+                whileHover: { y: -8 }
+              },
+                React.createElement('div', { className: 'product-image' },
+                  React.createElement('div', { className: 'placeholder-img' }, product.title),
+                  product.badge && React.createElement(motion.span, {
+                    className: 'product-badge',
+                    initial: { scale: 0, rotate: -12 },
+                    whileInView: { scale: 1, rotate: 0 },
+                    viewport: { once: true },
+                    transition: { duration: 0.4, delay: index * 0.05 + 0.2 }
+                  }, product.badge)
+                ),
+                React.createElement('div', { className: 'product-info' },
+                  React.createElement('div', { className: 'product-title' }, product.title),
+                  React.createElement('div', { className: 'product-category' }, product.category),
+                  React.createElement('div', { className: 'product-price' },
+                    React.createElement('span', null, `$${product.price}`),
+                    product.originalPrice && React.createElement('span', { className: 'price-original' }, `$${product.originalPrice}`)
+                  ),
+                  React.createElement(motion.button, {
+                    className: 'btn btn-primary',
+                    style: { width: '100%', marginTop: '0.75rem' },
+                    onClick: () => addToCart(product.id),
+                    whileHover: { scale: 1.02 },
+                    whileTap: { scale: 0.98 }
+                  }, 'Add to Cart')
+                )
+              )
+            )
+          )
+        )
+      ),
+
+      // Features
+      React.createElement('section', { className: 'section', style: { background: 'var(--surface)' } },
+        React.createElement('div', { className: 'wrapper' },
+          React.createElement('div', { className: 'features' },
+            features.map((feature, index) =>
+              React.createElement(motion.div, {
+                key: index,
+                className: 'feature',
+                initial: { opacity: 0, y: 30 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: "-100px" },
+                transition: { duration: 0.6, delay: index * 0.1 }
+              },
+                React.createElement(motion.div, {
+                  className: 'feature-icon',
+                  whileHover: { scale: 1.1, rotate: 5 }
+                }, feature.icon),
+                React.createElement('h3', null, feature.title),
+                React.createElement('p', null, feature.description)
+              )
+            )
+          )
+        )
+      ),
+
+      // Newsletter
+      React.createElement('section', { className: 'section', id: 'contact' },
+        React.createElement('div', { className: 'wrapper' },
+          React.createElement(motion.div, {
+            className: 'newsletter section',
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: "-100px" },
+            transition: { duration: 0.6 }
+          },
+            React.createElement('h2', null, 'Join Our Community'),
+            React.createElement('p', null, 'Subscribe to get special offers, style tips, and exclusive updates'),
+            React.createElement('form', { className: 'newsletter-form', onSubmit: handleNewsletter },
+              React.createElement('input', {
+                type: 'email',
+                placeholder: 'Enter your email',
+                required: true,
+                'aria-label': 'Email address'
+              }),
+              React.createElement(motion.button, {
+                type: 'submit',
+                className: 'btn',
+                whileHover: { scale: 1.05 },
+                whileTap: { scale: 0.95 }
+              }, 'Subscribe')
+            )
+          )
+        )
+      ),
+
+      // About Section
+      React.createElement('section', { className: 'section', id: 'about' },
+        React.createElement('div', { className: 'wrapper' },
+          React.createElement(motion.div, {
+            style: { maxWidth: '720px', margin: '0 auto', textAlign: 'center' },
+            initial: { opacity: 0, y: 30 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: "-100px" },
+            transition: { duration: 0.6 }
+          },
+            React.createElement('h2', { style: { marginBottom: '1.5rem' } }, 'About KODEK'),
+            React.createElement('p', {
+              style: {
+                color: 'var(--ink-secondary)',
+                fontSize: '1.0625rem',
+                marginBottom: '1rem'
+              }
+            }, 'Founded with a passion for quality and design, KODEK brings together contemporary fashion and timeless elegance. We believe that great clothing should feel as good as it looks.'),
+            React.createElement('p', {
+              style: { color: 'var(--ink-secondary)', fontSize: '1.0625rem' }
+            }, 'Every piece in our collection is carefully selected or designed in-house, with a focus on sustainable materials, ethical production, and lasting quality. We\'re committed to creating fashion that you\'ll love wearing for years to come.')
+          )
+        )
+      )
+    ),
+
+    // Footer
+    React.createElement('footer', null,
+      React.createElement('div', { className: 'wrapper' },
+        React.createElement(motion.div, {
+          className: 'footer-content',
+          initial: { opacity: 0 },
+          whileInView: { opacity: 1 },
+          viewport: { once: true, margin: "-100px" },
+          transition: { duration: 0.6 }
+        },
+          React.createElement('div', { className: 'footer-brand' },
+            React.createElement('h3', null, 'KODEK'),
+            React.createElement('p', null, 'Premium clothing brand dedicated to quality, sustainability, and timeless style.'),
+            React.createElement('div', { className: 'social-links' },
+              React.createElement('a', { href: '#', 'aria-label': 'Instagram' }, '📷'),
+              React.createElement('a', { href: '#', 'aria-label': 'Facebook' }, '📘'),
+              React.createElement('a', { href: '#', 'aria-label': 'Twitter' }, '🐦'),
+              React.createElement('a', { href: '#', 'aria-label': 'Pinterest' }, '📌')
+            )
+          ),
+          React.createElement('div', { className: 'footer-section' },
+            React.createElement('h4', null, 'Shop'),
+            React.createElement('div', { className: 'footer-links' },
+              React.createElement('a', { href: '#' }, 'New Arrivals'),
+              React.createElement('a', { href: '#' }, 'Men\'s'),
+              React.createElement('a', { href: '#' }, 'Women\'s'),
+              React.createElement('a', { href: '#' }, 'Accessories'),
+              React.createElement('a', { href: '#' }, 'Sale')
+            )
+          ),
+          React.createElement('div', { className: 'footer-section' },
+            React.createElement('h4', null, 'Help'),
+            React.createElement('div', { className: 'footer-links' },
+              React.createElement('a', { href: '#' }, 'Shipping Info'),
+              React.createElement('a', { href: '#' }, 'Returns'),
+              React.createElement('a', { href: '#' }, 'Size Guide'),
+              React.createElement('a', { href: '#' }, 'FAQ'),
+              React.createElement('a', { href: '#' }, 'Contact Us')
+            )
+          ),
+          React.createElement('div', { className: 'footer-section' },
+            React.createElement('h4', null, 'Company'),
+            React.createElement('div', { className: 'footer-links' },
+              React.createElement('a', { href: '#' }, 'About Us'),
+              React.createElement('a', { href: '#' }, 'Sustainability'),
+              React.createElement('a', { href: '#' }, 'Privacy Policy'),
+              React.createElement('a', { href: '#' }, 'Terms of Service')
+            )
+          )
+        ),
+        React.createElement('div', { className: 'footer-bottom' },
+          React.createElement('p', null, '© 2026 KODEK. All rights reserved.'),
+          React.createElement('p', null, 'Crafted with care')
+        )
+      )
+    ),
+
+    // Cart Sidebar
+    React.createElement(AnimatePresence, null,
+      cartOpen && React.createElement(motion.div, {
+        className: 'cart-overlay',
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        onClick: () => setCartOpen(false)
+      })
+    ),
+    React.createElement(AnimatePresence, null,
+      cartOpen && React.createElement(motion.aside, {
+        className: 'cart-sidebar',
+        initial: { x: '100%' },
+        animate: { x: 0 },
+        exit: { x: '100%' },
+        transition: { type: 'spring', damping: 25, stiffness: 200 }
+      },
+        React.createElement('div', { className: 'cart-header' },
+          React.createElement('h2', null, 'Shopping Cart'),
+          React.createElement('button', {
+            className: 'close-cart',
+            onClick: () => setCartOpen(false),
+            'aria-label': 'Close cart'
+          }, '×')
+        ),
+        React.createElement('div', { className: 'cart-items' },
+          cart.length === 0 ? (
+            React.createElement('div', { className: 'cart-empty' }, 'Your cart is empty')
+          ) : (
+            cart.map((item, index) =>
+              React.createElement(motion.div, {
+                key: item.id,
+                className: 'cart-item',
+                initial: { opacity: 0, x: 20 },
+                animate: { opacity: 1, x: 0 },
+                exit: { opacity: 0, x: 20 },
+                transition: { delay: index * 0.05 }
+              },
+                React.createElement('div', { className: 'cart-item-image' },
+                  React.createElement('div', {
+                    className: 'placeholder-img',
+                    style: { width: '100%', height: '100%', fontSize: '0.75rem', padding: '0.5rem' }
+                  }, item.title)
+                ),
+                React.createElement('div', { className: 'cart-item-info' },
+                  React.createElement('div', { className: 'cart-item-title' }, item.title),
+                  React.createElement('div', { className: 'cart-item-details' }, item.category),
+                  React.createElement('div', { className: 'cart-item-price' }, `$${item.price}`),
+                  React.createElement('div', { className: 'cart-item-actions' },
+                    React.createElement(motion.button, {
+                      className: 'qty-btn',
+                      onClick: () => updateQuantity(item.id, -1),
+                      whileTap: { scale: 0.9 }
+                    }, '−'),
+                    React.createElement('span', { style: { minWidth: '2rem', textAlign: 'center' } }, item.quantity),
+                    React.createElement(motion.button, {
+                      className: 'qty-btn',
+                      onClick: () => updateQuantity(item.id, 1),
+                      whileTap: { scale: 0.9 }
+                    }, '+'),
+                    React.createElement('button', {
+                      className: 'remove-btn',
+                      onClick: () => removeFromCart(item.id)
+                    }, 'Remove')
+                  )
+                )
+              )
+            )
+          )
+        ),
+        React.createElement('div', { className: 'cart-footer' },
+          React.createElement('div', { className: 'cart-total' },
+            React.createElement('span', null, 'Total'),
+            React.createElement('span', { className: 'cart-total-price' }, `$${totalPrice.toFixed(2)}`)
+          ),
+          React.createElement('div', { className: 'cart-actions' },
+            React.createElement(motion.button, {
+              className: 'btn btn-primary',
+              style: { width: '100%' },
+              onClick: handleCheckout,
+              whileHover: { scale: 1.02 },
+              whileTap: { scale: 0.98 }
+            }, 'Proceed to Checkout'),
+            React.createElement(motion.button, {
+              className: 'btn btn-secondary',
+              style: { width: '100%' },
+              onClick: () => setCartOpen(false),
+              whileHover: { scale: 1.02 },
+              whileTap: { scale: 0.98 }
+            }, 'Continue Shopping')
+          )
+        )
+      )
+    )
+  );
+}
+
+ReactDOM.render(React.createElement(App), document.getElementById('root'));
+</script>
